@@ -15,7 +15,11 @@ const getNodes = (node, nodes = []) => {
   return nodes
 }
 
-const markNodes = nodes => nodes.forEach(node => (node[KEY] = true))
+const markNodes = nodes =>
+  nodes.forEach(node => {
+    node[KEY] = true
+    return node
+  })
 
 const getClassNames = nodes =>
   nodes.reduce((classNames, node) => {
@@ -23,10 +27,12 @@ const getClassNames = nodes =>
       node.props && (node.props.class || node.props.className)
 
     if (classNameProp) {
-      classNameProp
-        .trim()
-        .split(/\s+/)
-        .forEach(className => classNames.add(className))
+      if (classNameProp.trim) {
+        classNameProp
+          .trim()
+          .split(/\s+/)
+          .forEach(className => classNames.add(className))
+      }
     }
 
     return classNames
